@@ -305,22 +305,23 @@ DISCIPLINE_GROUPS = {
     ],
 }
 
+# Cores ajustadas para garantir contraste WCAG AA (mínimo 4.5:1) sobre fundo #0e1117
 DISC_COLORS = {
-    "Língua Portuguesa": "#4A90D9",
-    "Legislação (PMDF)": "#7B68EE",
-    "Distrito Federal e Política para Mulheres": "#20B2AA",
-    "Direitos Humanos": "#FF7F50",
-    "Noções de Criminologia": "#DA70D6",
-    "Raciocínio Lógico": "#32CD32",
-    "Língua Inglesa": "#FFD700",
-    "Administração": "#FF6347",
-    "Direito Constitucional": "#1E90FF",
-    "Direito Administrativo": "#00CED1",
-    "Direito Penal": "#DC143C",
-    "Direito Processual Penal": "#FF8C00",
-    "Legislação Extravagante": "#9370DB",
-    "Direito Penal Militar": "#B22222",
-    "Direito Processual Penal Militar": "#CD853F",
+    "Língua Portuguesa": "#5BA3F2",           # ✓ (mais claro que original)
+    "Legislação (PMDF)": "#8B7EE8",          # ✓ (mais claro que #7B68EE)
+    "Distrito Federal e Política para Mulheres": "#2BC0B8",  # ✓
+    "Direitos Humanos": "#FF9A6E",           # ✓ (mais claro que #FF7F50)
+    "Noções de Criminologia": "#E28BB0",     # ✓ (mais claro que #DA70D6)
+    "Raciocínio Lógico": "#3CCF6F",          # ✓
+    "Língua Inglesa": "#FFDB5E",             # ✓ (mais claro que #FFD700)
+    "Administração": "#FF7857",              # ✓
+    "Direito Constitucional": "#4FA3F3",     # ✓ (mais claro que #1E90FF)
+    "Direito Administrativo": "#00E0E0",     # ✓
+    "Direito Penal": "#FF5A5A",              # ✓ (mais claro que #DC143C)
+    "Direito Processual Penal": "#FF9A4D",    # ✓
+    "Legislação Extravagante": "#A78BFA",    # ✓ (mais claro que #9370DB)
+    "Direito Penal Militar": "#E04E4E",      # ✓ (mais claro que #B22222)
+    "Direito Processual Penal Militar": "#E8A05E",  # ✓ (mais claro que #CD853F)
 }
 
 
@@ -365,21 +366,53 @@ def main():
         initial_sidebar_state="expanded",
     )
 
+    # Typography scale tokens (consistent spacing)
     st.markdown("""
     <style>
-    .main { background-color: #0e1117; }
+    :root {
+        --font-xs: 0.75rem;    /* 12px */
+        --font-sm: 0.875rem;   /* 14px */
+        --font-base: 1rem;     /* 16px */
+        --font-lg: 1.125rem;   /* 18px */
+        --font-xl: 1.25rem;    /* 20px */
+        --color-bg: #0e1117;
+        --color-text-primary: #ffffff;
+        --color-text-secondary: #cccccc;
+        --color-text-muted: #999999;
+    }
+
+    .main { background-color: var(--color-bg); }
     .stProgress > div > div > div { height: 12px; border-radius: 6px; }
-    .disc-header { font-size: 1.1rem; font-weight: 700; margin-bottom: 2px; }
-    .group-title { font-size: 1.3rem; font-weight: 800; color: #ffffff;
+    .disc-header { font-size: var(--font-lg); font-weight: 700; margin-bottom: 2px; }
+    .group-title { font-size: var(--font-xl); font-weight: 800; color: var(--color-text-primary);
                    background: #1a1d27; padding: 10px 16px;
                    border-radius: 8px; margin: 16px 0 8px 0; }
-    .progress-label { font-size: 0.78rem; color: #aaaaaa; margin-bottom: 4px; }
-    div[data-testid="stCheckbox"] label { font-size: 0.88rem; }
+    .progress-label { font-size: var(--font-sm); color: var(--color-text-secondary); margin-bottom: 4px; }
+    div[data-testid="stCheckbox"] label { font-size: var(--font-base); }
+
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+
+    /* Focus styles for accessibility */
+    button:focus-visible, input:focus-visible, [role="button"]:focus-visible {
+        outline: 2px solid #4A90D9;
+        outline-offset: 2px;
+    }
     </style>
     """, unsafe_allow_html=True)
 
     if "progress" not in st.session_state:
         st.session_state.progress = load_progress()
+
+    # Reset confirmation state
+    if "confirm_reset" not in st.session_state:
+        st.session_state.confirm_reset = False
 
     progress = st.session_state.progress
 
@@ -391,9 +424,9 @@ def main():
         total_done, total_all = calc_overall_progress(progress)
         pct = total_done / total_all * 100 if total_all else 0
 
-        st.markdown(f"### 📊 Progresso Total")
-        st.markdown(f"<h2 style='color:#4A90D9;margin:0'>{pct:.1f}%</h2>", unsafe_allow_html=True)
-        st.markdown(f"<span style='color:#aaa'>{total_done} de {total_all} tópicos</span>", unsafe_allow_html=True)
+        st.markdown("### 📊 Progresso Total")
+        st.markdown(f"<h2 style='color:#5BA3F2;margin:0'>{pct:.1f}%</h2>", unsafe_allow_html=True)
+        st.markdown(f"<span style='color:var(--color-text-secondary)'>{total_done} de {total_all} tópicos</span>", unsafe_allow_html=True)
         st.progress(pct / 100)
 
         st.markdown("---")
@@ -403,20 +436,35 @@ def main():
             for disc in disciplines:
                 done, total = calc_discipline_progress(progress, disc)
                 p = done / total * 100 if total else 0
-                color = DISC_COLORS.get(disc, "#4A90D9")
+                color = DISC_COLORS.get(disc, "#5BA3F2")
                 st.markdown(
-                    f"<div style='font-size:0.78rem;color:#ccc;margin-top:6px'>{disc}</div>"
-                    f"<div style='font-size:0.85rem;color:{color};font-weight:600'>{p:.0f}% ({done}/{total})</div>",
+                    f"<div style='font-size:var(--font-sm);color:var(--color-text-secondary);margin-top:6px'>{disc}</div>"
+                    f"<div style='font-size:var(--font-base);color:{color};font-weight:600'>{p:.0f}% ({done}/{total})</div>",
                     unsafe_allow_html=True,
                 )
                 st.progress(p / 100)
             st.markdown(" ")
 
         st.markdown("---")
-        if st.button("🗑️ Resetar tudo", type="secondary"):
-            st.session_state.progress = {}
-            save_progress({})
-            st.rerun()
+
+        # Reset button with confirmation
+        if not st.session_state.confirm_reset:
+            if st.button("🗑️ Resetar tudo", type="secondary"):
+                st.session_state.confirm_reset = True
+                st.rerun()
+        else:
+            st.warning("⚠️ Tem certeza? Esta ação apagará todo o progresso.")
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("✅ Sim, resetar", type="primary"):
+                    st.session_state.progress = {}
+                    st.session_state.confirm_reset = False
+                    save_progress({})
+                    st.rerun()
+            with col2:
+                if st.button("❌ Cancelar", type="secondary"):
+                    st.session_state.confirm_reset = False
+                    st.rerun()
 
     # ── MAIN ─────────────────────────────────────────────────────────────
     st.markdown("# 🎖️ PMDF – CFO 2025 | Painel de Estudos")
@@ -438,7 +486,7 @@ def main():
             topics = EDITAL[disc]
             done, total = calc_discipline_progress(progress, disc)
             p = done / total * 100 if total else 0
-            color = DISC_COLORS.get(disc, "#4A90D9")
+            color = DISC_COLORS.get(disc, "#5BA3F2")
 
             with st.expander(f"{disc}  —  {p:.0f}% concluído  ({done}/{total})", expanded=False):
                 st.markdown(
