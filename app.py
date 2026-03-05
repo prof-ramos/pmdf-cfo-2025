@@ -397,6 +397,7 @@ def main():
         --font-lg: 1.125rem;   /* 18px */
         --font-xl: 1.25rem;    /* 20px */
         --color-bg: #0e1117;
+        --color-accent: #4A90D9;  /* Centralized highlight/accent color for focus and progress */
         --color-text-primary: #ffffff;
         --color-text-secondary: #cccccc;
         --color-text-muted: #999999;
@@ -422,7 +423,7 @@ def main():
 
     /* Focus styles for accessibility */
     button:focus-visible, input:focus-visible, [role="button"]:focus-visible {
-        outline: 2px solid #4A90D9;
+        outline: 2px solid var(--color-accent);
         outline-offset: 2px;
     }
     </style>
@@ -446,7 +447,7 @@ def main():
         pct = total_done / total_all * 100 if total_all else 0
 
         st.markdown(f"### {icon('bar-chart-2')} Progresso Total", unsafe_allow_html=True)
-        st.markdown(f"<h2 style='color:#5BA3F2;margin:0'>{pct:.1f}%</h2>", unsafe_allow_html=True)
+        st.markdown(f"<h2 style='color:var(--color-accent);margin:0'>{pct:.1f}%</h2>", unsafe_allow_html=True)
         st.markdown(f"<span style='color:var(--color-text-secondary)'>{total_done} de {total_all} tópicos</span>", unsafe_allow_html=True)
         st.progress(pct / 100)
 
@@ -457,7 +458,7 @@ def main():
             for disc in disciplines:
                 done, total = calc_discipline_progress(progress, disc)
                 p = done / total * 100 if total else 0
-                color = DISC_COLORS.get(disc, "#5BA3F2")
+                color = DISC_COLORS.get(disc, "var(--color-accent)")
                 st.markdown(
                     f"<div style='font-size:var(--font-sm);color:var(--color-text-secondary);margin-top:6px'>{disc}</div>"
                     f"<div style='font-size:var(--font-base);color:{color};font-weight:600'>{p:.0f}% ({done}/{total})</div>",
@@ -507,7 +508,7 @@ def main():
             topics = EDITAL[disc]
             done, total = calc_discipline_progress(progress, disc)
             p = done / total * 100 if total else 0
-            color = DISC_COLORS.get(disc, "#5BA3F2")
+            color = DISC_COLORS.get(disc, "var(--color-accent)")
 
             with st.expander(f"{disc}  —  {p:.0f}% concluído  ({done}/{total})", expanded=False):
                 st.markdown(
