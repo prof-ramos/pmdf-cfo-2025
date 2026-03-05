@@ -4,6 +4,21 @@ from pathlib import Path
 
 PROGRESS_FILE = Path("progress.json")
 
+# Lucide Icons (MIT License) - SVG inline for zero dependencies
+ICONS = {
+    "medal": '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="m11 7-5.3 5.3a1 1 0 0 0 0 1.4l1.4 1.4a1 1 0 0 0 1.4 0L14 9.6V7h-3Z"/></svg>',
+    "book": '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>',
+    "scale": '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>',
+    "bar-chart-2": '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>',
+    "check-circle": '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+    "clipboard-list": '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>',
+    "trending-up": '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>',
+    "trash-2": '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>',
+    "alert-triangle": '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>',
+    "check": '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+    "x-circle": '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>',
+}
+
 EDITAL = {
     "Língua Portuguesa": [
         "1 Compreensão e interpretação de textos de gêneros variados",
@@ -358,10 +373,16 @@ def calc_overall_progress(progress):
     return total_done, total_all
 
 
+def icon(name):
+    """Render Lucide icon with consistent styling"""
+    svg = ICONS.get(name, "")
+    return f'<span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:8px">{svg}</span>'
+
+
 def main():
     st.set_page_config(
         page_title="PMDF CFO 2025 – Progresso de Estudos",
-        page_icon="🎖️",
+        page_icon="🎖️",  # Streamlit limitation: page_icon doesn't support HTML
         layout="wide",
         initial_sidebar_state="expanded",
     )
@@ -418,13 +439,13 @@ def main():
 
     # ── SIDEBAR ──────────────────────────────────────────────────────────
     with st.sidebar:
-        st.markdown("## 🎖️ PMDF – CFO 2025")
+        st.markdown(f"## {icon('medal')} PMDF – CFO 2025", unsafe_allow_html=True)
         st.markdown("---")
 
         total_done, total_all = calc_overall_progress(progress)
         pct = total_done / total_all * 100 if total_all else 0
 
-        st.markdown("### 📊 Progresso Total")
+        st.markdown(f"### {icon('bar-chart-2')} Progresso Total", unsafe_allow_html=True)
         st.markdown(f"<h2 style='color:#5BA3F2;margin:0'>{pct:.1f}%</h2>", unsafe_allow_html=True)
         st.markdown(f"<span style='color:var(--color-text-secondary)'>{total_done} de {total_all} tópicos</span>", unsafe_allow_html=True)
         st.progress(pct / 100)
@@ -449,33 +470,33 @@ def main():
 
         # Reset button with confirmation
         if not st.session_state.confirm_reset:
-            if st.button("🗑️ Resetar tudo", type="secondary"):
+            if st.button(f"{icon('trash-2')} Resetar tudo", type="secondary"):
                 st.session_state.confirm_reset = True
                 st.rerun()
         else:
-            st.warning("⚠️ Tem certeza? Esta ação apagará todo o progresso.")
+            st.warning(f"{icon('alert-triangle')} Tem certeza? Esta ação apagará todo o progresso.")
             col1, col2 = st.columns(2)
             with col1:
-                if st.button("✅ Sim, resetar", type="primary"):
+                if st.button(f"{icon('check')} Sim, resetar", type="primary"):
                     st.session_state.progress = {}
                     st.session_state.confirm_reset = False
                     save_progress({})
                     st.rerun()
             with col2:
-                if st.button("❌ Cancelar", type="secondary"):
+                if st.button(f"{icon('x-circle')} Cancelar", type="secondary"):
                     st.session_state.confirm_reset = False
                     st.rerun()
 
     # ── MAIN ─────────────────────────────────────────────────────────────
-    st.markdown("# 🎖️ PMDF – CFO 2025 | Painel de Estudos")
+    st.markdown(f"# {icon('medal')} PMDF – CFO 2025 | Painel de Estudos", unsafe_allow_html=True)
 
     total_done, total_all = calc_overall_progress(progress)
     pct = total_done / total_all * 100 if total_all else 0
 
     col1, col2, col3 = st.columns(3)
-    col1.metric("✅ Tópicos Concluídos", f"{total_done}")
-    col2.metric("📋 Total de Tópicos", f"{total_all}")
-    col3.metric("📈 Progresso Geral", f"{pct:.1f}%")
+    col1.metric(f"{icon('check-circle')} Tópicos Concluídos", f"{total_done}")
+    col2.metric(f"{icon('clipboard-list')} Total de Tópicos", f"{total_all}")
+    col3.metric(f"{icon('trending-up')} Progresso Geral", f"{pct:.1f}%")
 
     st.markdown("---")
 
