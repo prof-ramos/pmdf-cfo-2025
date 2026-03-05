@@ -320,6 +320,7 @@ DISCIPLINE_GROUPS = {
     ],
 }
 
+aDEFAULT_DISC_COLOR = "#4A90D9"  # Azul-ferreto claro (fallback)
 # Cores oficiais da PMDF (Azul-ferrete, Branco, Vermelho, Amarelo-ouro, Preto)
 # Ajustadas para garantir contraste WCAG AA (mínimo 4.5:1) sobre fundo #0e1117
 DISC_COLORS = {
@@ -391,7 +392,7 @@ def icon(name):
 
 def main():
     st.set_page_config(
-        page_title="PMDF CFO 2025 – Progresso de Estudos",
+        page_title="PMDF CFO 2025 - Progresso de Estudos",
         page_icon="🎖️",  # Streamlit limitation: page_icon doesn't support HTML
         layout="wide",
         initial_sidebar_state="expanded",
@@ -450,7 +451,7 @@ def main():
 
     # ── SIDEBAR ──────────────────────────────────────────────────────────
     with st.sidebar:
-        st.markdown(f"## {icon('medal')} PMDF – CFO 2025", unsafe_allow_html=True)
+        st.markdown(f"## {icon('medal')} PMDF - CFO 2025", unsafe_allow_html=True)
         st.markdown("---")
 
         total_done, total_all = calc_overall_progress(progress)
@@ -481,33 +482,33 @@ def main():
 
         # Reset button with confirmation
         if not st.session_state.confirm_reset:
-            if st.button(f"{icon('trash-2')} Resetar tudo", type="secondary"):
+            if st.button(" Resetar tudo", type="secondary"):
                 st.session_state.confirm_reset = True
                 st.rerun()
         else:
-            st.warning(f"{icon('alert-triangle')} Tem certeza? Esta ação apagará todo o progresso.")
+            st.warning(
             col1, col2 = st.columns(2)
             with col1:
-                if st.button(f"{icon('check')} Sim, resetar", type="primary"):
+                if st.button(" Sim, resetar", type="primary"):
                     st.session_state.progress = {}
                     st.session_state.confirm_reset = False
                     save_progress({})
                     st.rerun()
             with col2:
-                if st.button(f"{icon('x-circle')} Cancelar", type="secondary"):
+                if st.button(" Cancelar", type="secondary"):
                     st.session_state.confirm_reset = False
                     st.rerun()
 
     # ── MAIN ─────────────────────────────────────────────────────────────
-    st.markdown(f"# {icon('medal')} PMDF – CFO 2025 | Painel de Estudos", unsafe_allow_html=True)
+    st.markdown(f"# {icon('medal')} PMDF - CFO 2025 | Painel de Estudos", unsafe_allow_html=True)
 
     total_done, total_all = calc_overall_progress(progress)
     pct = total_done / total_all * 100 if total_all else 0
 
     col1, col2, col3 = st.columns(3)
-    col1.metric(f"{icon('check-circle')} Tópicos Concluídos", f"{total_done}")
-    col2.metric(f"{icon('clipboard-list')} Total de Tópicos", f"{total_all}")
-    col3.metric(f"{icon('trending-up')} Progresso Geral", f"{pct:.1f}%")
+    col1.metric("Tópicos Concluídos", f"{total_done}")
+    col2.metric("Total de Tópicos", f"{total_all}")
+    col3.metric("Progresso Geral", f"{pct:.1f}%")
 
     st.markdown("---")
 
