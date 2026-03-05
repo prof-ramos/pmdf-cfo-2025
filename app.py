@@ -320,23 +320,33 @@ DISCIPLINE_GROUPS = {
     ],
 }
 
-# Cores ajustadas para garantir contraste WCAG AA (mínimo 4.5:1) sobre fundo #0e1117
+# Cores oficiais da PMDF (Azul-ferrete, Branco, Vermelho, Amarelo-ouro, Preto)
+# Ajustadas para garantir contraste WCAG AA (mínimo 4.5:1) sobre fundo #0e1117
 DISC_COLORS = {
-    "Língua Portuguesa": "#5BA3F2",           # ✓ (mais claro que original)
-    "Legislação (PMDF)": "#8B7EE8",          # ✓ (mais claro que #7B68EE)
-    "Distrito Federal e Política para Mulheres": "#2BC0B8",  # ✓
-    "Direitos Humanos": "#FF9A6E",           # ✓ (mais claro que #FF7F50)
-    "Noções de Criminologia": "#E28BB0",     # ✓ (mais claro que #DA70D6)
-    "Raciocínio Lógico": "#3CCF6F",          # ✓
-    "Língua Inglesa": "#FFDB5E",             # ✓ (mais claro que #FFD700)
-    "Administração": "#FF7857",              # ✓
-    "Direito Constitucional": "#4FA3F3",     # ✓ (mais claro que #1E90FF)
-    "Direito Administrativo": "#00E0E0",     # ✓
-    "Direito Penal": "#FF5A5A",              # ✓ (mais claro que #DC143C)
-    "Direito Processual Penal": "#FF9A4D",    # ✓
-    "Legislação Extravagante": "#A78BFA",    # ✓ (mais claro que #9370DB)
-    "Direito Penal Militar": "#E04E4E",      # ✓ (mais claro que #B22222)
-    "Direito Processual Penal Militar": "#E8A05E",  # ✓ (mais claro que #CD853F)
+    # Azul-ferrete (cor predominante PMDF) - Institucional
+    "Legislação (PMDF)": "#4A90D9",          # Azul-ferrete claro
+    "Direito Constitucional": "#4A90D9",     # Azul-ferrete claro
+    "Direito Administrativo": "#4A90D9",      # Azul-ferrete claro
+    "Direito Processual Penal": "#4A90D9",    # Azul-ferrete claro
+
+    # Vermelho (sinal luminoso e destaque) - Penal
+    "Direito Penal": "#FF5A5A",              # Vermelho claro
+    "Direito Penal Militar": "#E04E4E",      # Vermelho claro
+
+    # Amarelo-ouro (Brasão e rosácea) - Organização/Lógica
+    "Administração": "#FFDB5E",             # Amarelo-ouro claro
+    "Raciocínio Lógico": "#FFDB5E",          # Amarelo-ouro claro
+
+    # Branco (viaturas e detalhes) - Geral/Base
+    "Língua Portuguesa": "#E0E0E0",          # Branco acinzentado
+    "Distrito Federal e Política para Mulheres": "#E0E0E0",  # Branco acinzentado
+
+    # Cores complementares (WCAG AA)
+    "Direitos Humanos": "#FF9A6E",           # Coral claro
+    "Noções de Criminologia": "#E28BB0",     # Roxo claro
+    "Língua Inglesa": "#3CCF6F",            # Verde menta claro
+    "Legislação Extravagante": "#A78BFA",    # Lilás claro
+    "Direito Processual Penal Militar": "#FF9A4D",  # Laranja claro
 }
 
 
@@ -397,7 +407,7 @@ def main():
         --font-lg: 1.125rem;   /* 18px */
         --font-xl: 1.25rem;    /* 20px */
         --color-bg: #0e1117;
-        --color-accent: #4A90D9;  /* Centralized highlight/accent color for focus and progress */
+        --color-accent: #4A90D9;  /* PMDF Azul-ferrete - cor oficial da instituição */
         --color-text-primary: #ffffff;
         --color-text-secondary: #cccccc;
         --color-text-muted: #999999;
